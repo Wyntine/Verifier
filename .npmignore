@@ -1,0 +1,9 @@
+.eslintignore
+.eslintrc.yaml
+tsconfig.json
+.github
+.vscode
+src
+*.tgz
+tsup.config.ts
+recreateTest.js

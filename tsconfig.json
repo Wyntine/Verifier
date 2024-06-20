@@ -1,0 +1,8 @@
+{
+  "extends": "./node_modules/@tsconfig/strictest/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "removeComments": true
+  },
+  "include": ["src/**/*.ts"]
+}

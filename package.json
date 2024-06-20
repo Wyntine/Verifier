@@ -1,0 +1,43 @@
+{
+  "name": "@wyntine/verifier",
+  "version": "1.0.0-beta.0",
+  "description": "Input verification module",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "build": "tsup-node",
+    "watch": "nodemon -e ts --watch src --exec \"run-s prepack\"",
+    "prepack": "run-s lint build",
+    "rebuild": "node ./recreateTest.js"
+  },
+  "keywords": [
+    "verifier"
+  ],
+  "prettier": "@wyntine/prettier-config",
+  "author": "Wyntine",
+  "license": "ISC",
+  "devDependencies": {
+    "@tsconfig/strictest": "^2.0.5",
+    "@types/node": "^20.14.5",
+    "@typescript-eslint/eslint-plugin": "^7.13.1",
+    "@typescript-eslint/parser": "^7.13.1",
+    "@wyntine/prettier-config": "^1.1.1",
+    "eslint": "^8.57.0",
+    "nodemon": "^3.1.3",
+    "npm-run-all": "^4.1.5",
+    "prettier-eslint": "^16.3.0",
+    "tar": "^7.2.0",
+    "tsup": "^8.1.0",
+    "typescript": "^5.4.5"
+  },
+  "bugs": {
+    "url": "https://github.com/Wyntine/Verifier/issues"
+  },
+  "homepage": "https://github.com/Wyntine/Verifier#readme",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  }
+}
