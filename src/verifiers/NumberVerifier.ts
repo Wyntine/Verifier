@@ -9,7 +9,14 @@ import {
 } from "../types/general.js";
 import { AllowedSigns, NumberRange } from "../types/verifiers/number.js";
 
+/**
+ * Verifier for number values.
+ */
 export class NumberVerifier extends BaseVerifier<ItemTypes.Number> {
+  /**
+   * Constructor for NumberVerifier.
+   * @param verifierContext Optional context for the verifier.
+   */
   constructor(verifierContext?: VerifierContext<ItemTypes.Number>) {
     super(
       [
@@ -25,14 +32,29 @@ export class NumberVerifier extends BaseVerifier<ItemTypes.Number> {
     );
   }
 
+  /**
+   * Sets the expected number value.
+   * @param expectedNumber The expected number value.
+   * @returns A new NumberVerifier instance with updated expectedNumber.
+   */
   public setExpectedNumber(expectedNumber: number) {
     return new NumberVerifier({ ...this.data, expectedNumber });
   }
 
+  /**
+   * Sets the minimum value.
+   * @param minValue The minimum value.
+   * @returns A new NumberVerifier instance with updated minValue.
+   */
   public setMinValue(minValue: number) {
     return new NumberVerifier({ ...this.data, minValue });
   }
 
+  /**
+   * Sets the maximum value.
+   * @param maxValue The maximum value.
+   * @returns A new NumberVerifier instance with updated maxValue.
+   */
   public setMaxValue(maxValue: number) {
     return new NumberVerifier({ ...this.data, maxValue });
   }
@@ -51,14 +73,29 @@ export class NumberVerifier extends BaseVerifier<ItemTypes.Number> {
   //   return new NumberVerifier({ ...this.data, length });
   // }
 
+  /**
+   * Sets whether only safe integers are allowed.
+   * @param safeInteger True if only safe integers are allowed.
+   * @returns A new NumberVerifier instance with updated safeInteger.
+   */
   public setSafeIntegerOnly(safeInteger: boolean) {
     return new NumberVerifier({ ...this.data, safeInteger });
   }
 
+  /**
+   * Sets whether only integers are allowed.
+   * @param integer True if only integers are allowed.
+   * @returns A new NumberVerifier instance with updated integer.
+   */
   public setIntegerOnly(integer: boolean) {
     return new NumberVerifier({ ...this.data, integer });
   }
 
+  /**
+   * Sets the allowed signs for the number.
+   * @param allowedSigns An object specifying which signs are allowed.
+   * @returns A new NumberVerifier instance with updated allowed signs.
+   */
   public setAllowedSigns({
     positive = true,
     zero = true,
@@ -67,6 +104,11 @@ export class NumberVerifier extends BaseVerifier<ItemTypes.Number> {
     return new NumberVerifier({ ...this.data, positive, zero, negative });
   }
 
+  /**
+   * Adds allowed ranges for the number.
+   * @param allowedRanges An array of allowed ranges.
+   * @returns A new NumberVerifier instance with updated allowedRanges.
+   */
   public addAllowedRanges(allowedRanges: NumberRange[]) {
     const currentRanges = this.data.allowedRanges ?? [];
     return new NumberVerifier({
@@ -75,10 +117,20 @@ export class NumberVerifier extends BaseVerifier<ItemTypes.Number> {
     });
   }
 
+  /**
+   * Sets the allowed ranges for the number.
+   * @param allowedRanges An array of allowed ranges.
+   * @returns A new NumberVerifier instance with updated allowedRanges.
+   */
   public setAllowedRanges(allowedRanges: NumberRange[]) {
     return new NumberVerifier({ ...this.data, allowedRanges });
   }
 
+  /**
+   * Adds excluded ranges for the number.
+   * @param excludedRanges An array of excluded ranges.
+   * @returns A new NumberVerifier instance with updated excludedRanges.
+   */
   public addExcludedRanges(excludedRanges: NumberRange[]) {
     const currentRanges = this.data.excludedRanges ?? [];
     return new NumberVerifier({
@@ -87,10 +139,20 @@ export class NumberVerifier extends BaseVerifier<ItemTypes.Number> {
     });
   }
 
+  /**
+   * Sets the excluded ranges for the number.
+   * @param excludedRanges An array of excluded ranges.
+   * @returns A new NumberVerifier instance with updated excludedRanges.
+   */
   public setExcludedRanges(excludedRanges: NumberRange[]) {
     return new NumberVerifier({ ...this.data, excludedRanges });
   }
 
+  /**
+   * Sets the numbers that the input should be dividable by.
+   * @param dividableBy An array of numbers.
+   * @returns A new NumberVerifier instance with updated dividableBy.
+   */
   public setDividableNumbers(dividableBy: number[]) {
     return new NumberVerifier({ ...this.data, dividableBy });
   }

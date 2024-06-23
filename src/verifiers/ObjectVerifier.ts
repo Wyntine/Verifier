@@ -21,7 +21,14 @@ import {
 import { ArrayVerifier } from "./ArrayVerifier.js";
 import { BaseVerifier } from "./BaseVerifier.js";
 
+/**
+ * Verifier for object values.
+ */
 export class ObjectVerifier extends BaseVerifier<ItemTypes.Object> {
+  /**
+   * Constructor for ObjectVerifier.
+   * @param verifierContext Optional context for the verifier.
+   */
   constructor(verifierContext?: VerifierContext<ItemTypes.Object>) {
     super(
       [checkObject, checkNotAllowed, checkItems, checkExact],
@@ -29,10 +36,21 @@ export class ObjectVerifier extends BaseVerifier<ItemTypes.Object> {
     );
   }
 
+  /**
+   * Sets whether the object should exactly match the specified structure.
+   * @param exact True if the object should match exactly.
+   * @returns A new ObjectVerifier instance with updated exact.
+   */
   public setExact(exact: boolean) {
     return new ObjectVerifier({ ...this.data, exact });
   }
 
+  /**
+   * Sets a general type verifier for the object.
+   * @param verifierType The type of the verifier.
+   * @param verifierData The data for the verifier.
+   * @returns A new ObjectVerifier instance with updated generalType.
+   */
   public setGeneralType<ItemType extends ItemTypes>(
     verifierType: ItemType,
     verifierData: AddItemData<ItemType>,
@@ -46,10 +64,20 @@ export class ObjectVerifier extends BaseVerifier<ItemTypes.Object> {
     return new ObjectVerifier({ ...this.data, generalType: verifier });
   }
 
+  /**
+   * Sets the keys that are not allowed in the object.
+   * @param keys An array of keys.
+   * @returns A new ObjectVerifier instance with updated notAllowedKeys.
+   */
   public setNotAllowedKeys(keys: string[]) {
     return new ObjectVerifier({ ...this.data, notAllowedKeys: keys });
   }
 
+  /**
+   * Adds keys to the not allowed keys list.
+   * @param keys An array of keys.
+   * @returns A new ObjectVerifier instance with updated notAllowedKeys.
+   */
   public addNotAllowedKeys(keys: string[]) {
     const finalKeys = Array.from(
       new Set([...(this.data.notAllowedKeys ?? []), ...keys]),
@@ -57,10 +85,22 @@ export class ObjectVerifier extends BaseVerifier<ItemTypes.Object> {
     return this.setNotAllowedKeys(finalKeys);
   }
 
+  /**
+   * Adds a string item to the object.
+   * @param key The key of the item.
+   * @param data Optional data for the item.
+   * @returns A new ObjectVerifier instance with the added string item.
+   */
   public addString(key: string, data?: AddObjectItemOptions<ItemTypes.String>) {
     return this.addItem(data, ItemTypes.String, key);
   }
 
+  /**
+   * Adds a boolean item to the object.
+   * @param key The key of the item.
+   * @param data Optional data for the item.
+   * @returns A new ObjectVerifier instance with the added boolean item.
+   */
   public addBoolean(
     key: string,
     data?: AddObjectItemOptions<ItemTypes.Boolean>,
@@ -68,26 +108,49 @@ export class ObjectVerifier extends BaseVerifier<ItemTypes.Object> {
     return this.addItem(data, ItemTypes.Boolean, key);
   }
 
+  /**
+   * Adds a number item to the object.
+   * @param key The key of the item.
+   * @param data Optional data for the item.
+   * @returns A new ObjectVerifier instance with the added number item.
+   */
   public addNumber(key: string, data?: AddObjectItemOptions<ItemTypes.Number>) {
     return this.addItem(data, ItemTypes.Number, key);
   }
 
+  /**
+   * Adds an array item to the object.
+   * @param key The key of the item.
+   * @param data Optional data for the item.
+   * @returns A new ObjectVerifier instance with the added array item.
+   */
   public addArray(key: string, data?: AddObjectItemOptions<ItemTypes.Array>) {
     return this.addItem(data, ItemTypes.Array, key);
   }
 
+  /**
+   * Adds an object item to the object.
+   * @param key The key of the item.
+   * @param data Optional data for the item.
+   * @returns A new ObjectVerifier instance with the added object item.
+   */
   public addObject(key: string, data?: AddObjectItemOptions<ItemTypes.Object>) {
     return this.addItem(data, ItemTypes.Object, key);
   }
 
+  /**
+   * Adds an item to the object verifier.
+   * @param data Optional data for the item.
+   * @param itemType The type of the item.
+   * @param key The key of the item.
+   * @returns A new ObjectVerifier instance with the added item.
+   */
   private addItem<ItemType extends ItemTypes>(
-    {
-      verifierData,
-      ...options
-    }: AddObjectItemOptions<ItemType> | undefined = {},
+    data: AddObjectItemOptions<ItemType> | undefined = {},
     itemType: ItemType,
     key: string,
   ) {
+    const { verifierData, ...options } = data;
     const currentItems = this.data.items ?? [];
     const verifierClass = (
       itemType === ItemTypes.Array ?

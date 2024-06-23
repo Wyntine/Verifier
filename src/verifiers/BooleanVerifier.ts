@@ -8,11 +8,23 @@ import { replace } from "../utils/strings.js";
 import { isBoolean, error, fail, success } from "../utils/verify.js";
 import { BaseVerifier } from "./BaseVerifier.js";
 
+/**
+ * Verifier for boolean values.
+ */
 export class BooleanVerifier extends BaseVerifier<ItemTypes.Boolean> {
+  /**
+   * Constructor for BooleanVerifier.
+   * @param verifierContext Optional context for the verifier.
+   */
   constructor(verifierContext?: VerifierContext<ItemTypes.Boolean>) {
     super([checkBoolean, checkExpectedBoolean], verifierContext);
   }
 
+  /**
+   * Sets the expected boolean value.
+   * @param expectedBoolean The expected boolean value.
+   * @returns A new BooleanVerifier instance with updated expectedBoolean.
+   */
   public setExpectedBoolean(expectedBoolean: boolean) {
     return new BooleanVerifier({ ...this.data, expectedBoolean });
   }

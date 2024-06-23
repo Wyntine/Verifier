@@ -20,54 +20,110 @@ import {
 } from "../utils/verify.js";
 import { BaseVerifier } from "./BaseVerifier.js";
 
+/**
+ * Verifier for arrays with various constraints.
+ */
 export class ArrayVerifier extends BaseVerifier<ItemTypes.Array> {
+  /**
+   * Constructor for ArrayVerifier.
+   * @param verifierContext Optional context for the verifier.
+   */
   constructor(verifierContext?: VerifierContext<ItemTypes.Array>) {
     super([checkArray, checkLengths, checkItems, checkExact], verifierContext);
   }
 
+  /**
+   * Sets the maximum length for the array.
+   * @param maxLength Maximum length of the array.
+   * @returns A new ArrayVerifier instance with updated maxLength.
+   */
   public setMaxLength(maxLength: number) {
     return new ArrayVerifier({ ...this.data, maxLength });
   }
 
+  /**
+   * Sets the minimum length for the array.
+   * @param minLength Minimum length of the array.
+   * @returns A new ArrayVerifier instance with updated minLength.
+   */
   public setMinLength(minLength: number) {
     return new ArrayVerifier({ ...this.data, minLength });
   }
 
+  /**
+   * Sets the exact length for the array.
+   * @param length Exact length of the array.
+   * @returns A new ArrayVerifier instance with updated length.
+   */
   public setLength(length: number) {
     return new ArrayVerifier({ ...this.data, length });
   }
 
+  /**
+   * Sets whether the array should have exact items as specified.
+   * @param exact Whether the array should have exact items.
+   * @returns A new ArrayVerifier instance with updated exact flag.
+   */
   public setExact(exact: boolean) {
     return new ArrayVerifier({ ...this.data, exact });
   }
 
+  /**
+   * Adds a string item to the array verifier.
+   * @param data Optional data for the string item.
+   * @returns A new ArrayVerifier instance with the string item added.
+   */
   public addString(data?: AddArrayItemOptions<ItemTypes.String>) {
     return this.addItem(data, ItemTypes.String);
   }
 
+  /**
+   * Adds a boolean item to the array verifier.
+   * @param data Optional data for the boolean item.
+   * @returns A new ArrayVerifier instance with the boolean item added.
+   */
   public addBoolean(data?: AddArrayItemOptions<ItemTypes.Boolean>) {
     return this.addItem(data, ItemTypes.Boolean);
   }
 
+  /**
+   * Adds a number item to the array verifier.
+   * @param data Optional data for the number item.
+   * @returns A new ArrayVerifier instance with the number item added.
+   */
   public addNumber(data?: AddArrayItemOptions<ItemTypes.Number>) {
     return this.addItem(data, ItemTypes.Number);
   }
 
+  /**
+   * Adds an array item to the array verifier.
+   * @param data Optional data for the array item.
+   * @returns A new ArrayVerifier instance with the array item added.
+   */
   public addArray(data?: AddArrayItemOptions<ItemTypes.Array>) {
     return this.addItem(data, ItemTypes.Array);
   }
 
+  /**
+   * Adds an object item to the array verifier.
+   * @param data Optional data for the object item.
+   * @returns A new ArrayVerifier instance with the object item added.
+   */
   public addObject(data?: AddArrayItemOptions<ItemTypes.Object>) {
     return this.addItem(data, ItemTypes.Object);
   }
 
+  /**
+   * Adds an item to the array verifier.
+   * @param data Optional data for the item.
+   * @param itemType The type of the item.
+   * @returns A new ArrayVerifier instance with the item added.
+   */
   private addItem<ItemType extends ItemTypes>(
-    {
-      verifierData,
-      ...options
-    }: AddArrayItemOptions<ItemType> | undefined = {},
+    data: AddArrayItemOptions<ItemType> | undefined = {},
     itemType: ItemType,
   ) {
+    const { verifierData, ...options } = data;
     const currentItems = this.data.items ?? [];
     const verifierClass = (
       itemType === ItemTypes.Array ?

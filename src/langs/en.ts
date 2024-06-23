@@ -1,4 +1,4 @@
-import { LangInterface } from "../types/languages";
+import { LangInterface } from "../types/languages.js";
 
 const lang: LangInterface = {
   errors: {

@@ -8,7 +8,14 @@ import { replace } from "../utils/strings.js";
 import { isNumber, isString, error, fail, success } from "../utils/verify.js";
 import { BaseVerifier } from "./BaseVerifier.js";
 
+/**
+ * Verifier for string values.
+ */
 export class StringVerifier extends BaseVerifier<ItemTypes.String> {
+  /**
+   * Constructor for StringVerifier.
+   * @param verifierContext Optional context for the verifier.
+   */
   constructor(verifierContext?: VerifierContext<ItemTypes.String>) {
     super(
       [checkString, checkExpectedString, checkLengths, checkRegex],
@@ -16,22 +23,47 @@ export class StringVerifier extends BaseVerifier<ItemTypes.String> {
     );
   }
 
+  /**
+   * Sets the exact length of the string.
+   * @param length The exact length to set.
+   * @returns A new StringVerifier instance with updated length.
+   */
   public setLength(length: number) {
     return new StringVerifier({ ...this.data, length });
   }
 
+  /**
+   * Sets the maximum length of the string.
+   * @param maxLength The maximum length to set.
+   * @returns A new StringVerifier instance with updated maxLength.
+   */
   public setMaxLength(maxLength: number) {
     return new StringVerifier({ ...this.data, maxLength });
   }
 
+  /**
+   * Sets the minimum length of the string.
+   * @param minLength The minimum length to set.
+   * @returns A new StringVerifier instance with updated minLength.
+   */
   public setMinLength(minLength: number) {
     return new StringVerifier({ ...this.data, minLength });
   }
 
+  /**
+   * Sets a regular expression to test the string against.
+   * @param regex The regular expression to set.
+   * @returns A new StringVerifier instance with updated regex.
+   */
   public setRegex(regex: RegExp) {
     return new StringVerifier({ ...this.data, regex });
   }
 
+  /**
+   * Sets the expected string value.
+   * @param expectedString The expected string value to set.
+   * @returns A new StringVerifier instance with updated expectedString.
+   */
   public setExpectedString(expectedString: string) {
     return new StringVerifier({ ...this.data, expectedString });
   }

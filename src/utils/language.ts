@@ -2,8 +2,9 @@ import { LangInterface, Langs } from "../types/languages.js";
 import { accessKey, keyNames } from "./objects.js";
 
 import en from "../langs/en.js";
+import tr from "../langs/tr.js";
 
-export const langMap = { en };
+export const langMap = { en, tr };
 let lang: Langs = "en";
 
 langCheck();
