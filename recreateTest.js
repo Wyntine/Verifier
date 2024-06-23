@@ -1,8 +1,11 @@
 // @ts-check
 
+const { execSync } = require("child_process");
 const { existsSync } = require("fs");
 const { readdir, mkdir, rm, rename } = require("fs/promises");
 const { x } = require("tar");
+
+execSync("npm pack");
 
 (async () => {
   const files = await readdir("./", {
@@ -20,13 +23,14 @@ const { x } = require("tar");
     process.exit(0);
   }
 
-  const folderPath = "../Test/node_modules/@wyntine";
+  const testFolder = "Test";
+  const folderPath = `../${testFolder}/node_modules/@wyntine`;
+  const projectPath = `${folderPath}/verifier`;
 
-  if (!existsSync(folderPath)) {
+  if (!existsSync(projectPath)) {
     await mkdir(folderPath, { recursive: true });
   } else {
-    await rm(folderPath, { recursive: true });
-    await mkdir(folderPath);
+    await rm(projectPath, { recursive: true });
   }
 
   await x({

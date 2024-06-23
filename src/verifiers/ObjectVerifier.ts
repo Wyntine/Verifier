@@ -1,7 +1,6 @@
 import {
   AddItemData,
   ItemTypes,
-  VerifierBuilder,
   VerifierCheckData,
   VerifierConstructor,
   VerifierContext,
@@ -12,7 +11,14 @@ import {
 } from "../types/general.js";
 import { AddObjectItemOptions, ObjectItem } from "../types/verifiers/object.js";
 import { replace } from "../utils/strings.js";
-import { error, fail, isObject, success } from "../utils/verify.js";
+import {
+  createVerifier,
+  error,
+  fail,
+  isObject,
+  success,
+} from "../utils/verify.js";
+import { ArrayVerifier } from "./ArrayVerifier.js";
 import { BaseVerifier } from "./BaseVerifier.js";
 
 export class ObjectVerifier extends BaseVerifier<ItemTypes.Object> {
@@ -32,14 +38,11 @@ export class ObjectVerifier extends BaseVerifier<ItemTypes.Object> {
     verifierData: AddItemData<ItemType>,
   ) {
     const verifierClass = (
-      verifierType === ItemTypes.Object ?
-        ObjectVerifier
+      verifierType === ItemTypes.Array ?
+        ArrayVerifier
       : VerifierMaps[verifierType]) as VerifierConstructor<ItemType>;
 
-    const verifier =
-      verifierData instanceof verifierClass ? verifierData : (
-        (verifierData as VerifierBuilder<ItemType>)(new verifierClass())
-      );
+    const verifier = createVerifier(verifierData, verifierClass);
     return new ObjectVerifier({ ...this.data, generalType: verifier });
   }
 
@@ -87,16 +90,10 @@ export class ObjectVerifier extends BaseVerifier<ItemTypes.Object> {
   ) {
     const currentItems = this.data.items ?? [];
     const verifierClass = (
-      itemType === ItemTypes.Object ?
-        ObjectVerifier
+      itemType === ItemTypes.Array ?
+        ArrayVerifier
       : VerifierMaps[itemType]) as VerifierConstructor<ItemType>;
-
-    const verifier =
-      verifierData ?
-        verifierData instanceof verifierClass ?
-          verifierData
-        : (verifierData as VerifierBuilder<ItemType>)(new verifierClass())
-      : new verifierClass();
+    const verifier = createVerifier(verifierData, verifierClass);
     const item: ObjectItem = { verifier, itemType, options, key };
     return new ObjectVerifier({ ...this.data, items: [...currentItems, item] });
   }
@@ -172,8 +169,10 @@ function checkItems(
     const { verifier, options, key } = item;
     const { required = false } = options ?? {};
 
-    if (!(key in input) && required) {
-      errors.push([key, [replace(notExists, [key])]]);
+    if (!(key in input)) {
+      if (required) {
+        errors.push([key, [replace(notExists, [key])]]);
+      }
       continue;
     }
 

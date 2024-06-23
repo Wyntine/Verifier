@@ -3,7 +3,6 @@ import {
   VerifierContext,
   VerifierMaps,
   VerifierConstructor,
-  VerifierBuilder,
   VerifierCheckData,
   VerifierFunctionOutput,
   VerifierMap,
@@ -11,7 +10,14 @@ import {
 } from "../types/general.js";
 import { AddArrayItemOptions, ArrayItem } from "../types/verifiers/array.js";
 import { replace } from "../utils/strings.js";
-import { isArray, isNumber, error, fail, success } from "../utils/verify.js";
+import {
+  isArray,
+  isNumber,
+  error,
+  fail,
+  success,
+  createVerifier,
+} from "../utils/verify.js";
 import { BaseVerifier } from "./BaseVerifier.js";
 
 export class ArrayVerifier extends BaseVerifier<ItemTypes.Array> {
@@ -68,12 +74,7 @@ export class ArrayVerifier extends BaseVerifier<ItemTypes.Array> {
         ArrayVerifier
       : VerifierMaps[itemType]) as VerifierConstructor<ItemType>;
 
-    const verifier =
-      verifierData ?
-        verifierData instanceof verifierClass ?
-          verifierData
-        : (verifierData as VerifierBuilder<ItemType>)(new verifierClass())
-      : new verifierClass();
+    const verifier = createVerifier(verifierData, verifierClass);
     const item: ArrayItem = { verifier, itemType, options };
     return new ArrayVerifier({ ...this.data, items: [...currentItems, item] });
   }

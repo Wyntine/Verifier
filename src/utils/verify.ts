@@ -5,6 +5,10 @@ import {
   VerifierOutputFail,
   VerifierOutputError,
   VerifierOutputSuccess,
+  ItemTypes,
+  AddItemData,
+  VerifierConstructor,
+  VerifierMap,
 } from "../types/general.js";
 
 export function verify(
@@ -74,4 +78,19 @@ export function error(...errors: string[]): VerifierOutputError {
 
 export function success(): VerifierOutputSuccess {
   return { status: VerifierOutputType.Success };
+}
+
+export function createVerifier<ItemType extends ItemTypes>(
+  verifierData: AddItemData<ItemType> | undefined,
+  verifierClass: VerifierConstructor<ItemType>,
+): VerifierMap[ItemType] {
+  if (!verifierData) return new verifierClass();
+
+  if (typeof verifierData !== "function") {
+    if (!(verifierData instanceof verifierClass))
+      throw new Error("Wrong verifier class.");
+    return verifierData;
+  }
+
+  return verifierData(new verifierClass());
 }

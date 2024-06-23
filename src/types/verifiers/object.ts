@@ -1,6 +1,5 @@
 import { AddItemData, ItemTypes, VerifierMap } from "../general.js";
 
-// todo: Add the verifier.
 export interface ObjectVerifierData {
   exact?: boolean;
   generalType?: VerifierMap[ItemTypes];
