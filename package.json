@@ -1,6 +1,6 @@
 {
   "name": "@wyntine/verifier",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Input verification module",
   "main": "dist/index.js",
   "scripts": {

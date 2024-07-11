@@ -122,17 +122,17 @@ Validates input booleans, checking if they match the expected boolean value.
 
 # Examples
 
+**Note**: Verifier classes does not mutate itself on actions, they return a new class.
+
 ```typescript
 import { StringVerifier, NumberVerifier } from "@wyntine/verifier";
 
-const stringValidator = new StringVerifier();
-stringValidator.setMaxLength(10);
-stringValidator.setRegex(/^\d+$/);
+const stringValidator = new StringVerifier().setMaxLength(10).setRegex(/^\d+$/);
 
-const numberValidator = new NumberVerifier();
-numberValidator.setMinValue(0);
-numberValidator.setMaxValue(100);
-numberValidator.setDividableNumbers([2, 5]);
+const numberValidator = new NumberVerifier()
+  .setMinValue(0)
+  .setMaxValue(100)
+  .setDividableNumbers([2, 5]);
 
 const stringResult = stringValidator.verify("12345");
 console.log(stringResult); // Output: { status: 'success' }
